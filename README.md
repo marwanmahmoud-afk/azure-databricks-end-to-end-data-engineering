@@ -40,7 +40,11 @@ Azure Data Lake Storage Gen2
              ▼
      Analytics-Ready Data
 ```
+### 🔄 Pipeline Orchestration
 
+The complete Databricks workflow orchestrates the Bronze, Silver, and Gold layers with task dependencies.
+
+![End-to-End Databricks Pipeline](images/pipeline-orchestration.png)
 ---
 
 ## 📌 Project Overview
@@ -75,6 +79,11 @@ The Bronze layer is responsible for ingesting raw data from the source into the 
 - Parameterized ingestion logic
 
 The Bronze layer acts as the raw landing zone before any major transformations are applied.
+### ⚡ Incremental Ingestion with Auto Loader
+
+The Bronze layer uses Databricks Auto Loader with Structured Streaming to incrementally ingest raw data from Azure Data Lake Storage Gen2 while automatically inferring and tracking the schema.
+
+![Bronze Layer - Databricks Auto Loader](images/bronze-autoloader.png)
 
 ---
 
@@ -101,6 +110,12 @@ The project contains Silver transformations for:
 
 PySpark DataFrames are used to perform the transformation logic.
 
+### 🧹 Data Cleaning & Transformation
+
+The Silver layer transforms the raw Bronze data into cleaned and enriched datasets using PySpark. It applies data quality checks, standardization, derived columns, and business transformation logic to prepare the data for analytics.
+
+![Silver Layer Transformation](images/silver-transformation.png)
+
 ---
 
 ## 🥇 Gold Layer
@@ -116,6 +131,14 @@ FactOrders
 ```
 
 The Gold layer is designed using a **Star Schema**.
+
+### 🥇 Lakeflow Declarative Pipeline
+
+The Gold layer uses a Lakeflow Declarative Pipeline to build and maintain the product dimension incrementally.
+
+The pipeline applies data quality expectations and processes product data through staging and transformation steps before loading the final `dimproducts` table.
+
+![Gold Lakeflow Declarative Pipeline](images/gold-dlt-pipeline.png)
 
 ---
 
@@ -232,6 +255,14 @@ DimCustomers     DimProducts
             ▼
         FactOrders
 ```
+
+### ⭐ Analytics-Ready Star Schema
+
+The Gold layer organizes the transformed data into an analytics-ready dimensional model, separating business entities into dimension tables and transactional data into the fact table.
+
+The final model includes customer and product dimensions alongside the orders fact table, providing a structured foundation for BI reporting and analytical workloads.
+
+![Gold Layer Star Schema](images/gold-star-schema.png)
 
 Task dependencies ensure that downstream transformations execute only after the required upstream datasets have been successfully processed.
 
