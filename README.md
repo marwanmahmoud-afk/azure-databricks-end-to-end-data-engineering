@@ -40,6 +40,14 @@ Azure Data Lake Storage Gen2
              ▼
      Analytics-Ready Data
 ```
+
+## 🔄 End-to-End Data Journey
+
+The diagram below illustrates how data flows through the complete pipeline — from raw source data and incremental ingestion to transformation, data quality, dimensional modeling, and analytics-ready datasets.
+
+![End-to-End Data Engineering Journey](images/data-engineering-journey.png)
+
+
 ### 🔄 Pipeline Orchestration
 
 The complete Databricks workflow orchestrates the Bronze, Silver, and Gold layers with task dependencies.
